@@ -1,8 +1,8 @@
-import sys
+# Main calendar window implementation.
+
 from typing import Optional
 
 from PySide6.QtWidgets import (
-    QApplication,
     QMainWindow,
     QWidget,
     QVBoxLayout,
@@ -13,25 +13,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QDate
 
-
-class CalendarConfig:
-    # Configuration constants for the calendar application.
-    
-    # Window settings
-    WINDOW_TITLE = "Simple Calendar - PySide6"
-    WINDOW_X = 100
-    WINDOW_Y = 100
-    WINDOW_WIDTH = 600
-    WINDOW_HEIGHT = 500
-    
-    # Date format
-    DATE_FORMAT = "dddd, MMMM d, yyyy"
-    
-    # Button texts
-    PREV_BUTTON_TEXT = "◀ Previous"
-    TODAY_BUTTON_TEXT = "Today"
-    NEXT_BUTTON_TEXT = "Next ▶"
-    TITLE_TEXT = "Calendar"
+from config.settings import CalendarConfig
+from ui.styles import get_main_stylesheet, get_today_button_stylesheet
 
 
 class SimpleCalendar(QMainWindow):
@@ -122,88 +105,9 @@ class SimpleCalendar(QMainWindow):
     
     def _setup_styling(self) -> None:
         # Apply modern styling to the application.
-        self.setStyleSheet(self._get_main_stylesheet())
+        self.setStyleSheet(get_main_stylesheet())
         if self.today_btn:
-            self.today_btn.setStyleSheet(self._get_today_button_stylesheet())
-    
-    def _get_main_stylesheet(self) -> str:
-        # Get the main application stylesheet.
-        return """
-            QMainWindow {
-                background-color: #f5f5f5;
-            }
-            
-            QPushButton {
-                background-color: #2196F3;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 6px;
-                font-weight: bold;
-                margin: 5px;
-                font-size: 12px;
-            }
-            
-            QPushButton:hover {
-                background-color: #1976D2;
-            }
-            
-            QPushButton:pressed {
-                background-color: #0D47A1;
-            }
-            
-            QCalendarWidget {
-                border: 2px solid #bdc3c7;
-                border-radius: 10px;
-                background-color: white;
-                margin: 10px;
-            }
-            
-            QCalendarWidget QToolButton {
-                background-color: #34495e;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                margin: 2px;
-                padding: 6px;
-            }
-            
-            QCalendarWidget QToolButton:hover {
-                background-color: #2c3e50;
-            }
-            
-            QCalendarWidget QMenu {
-                background-color: white;
-                border: 1px solid #bdc3c7;
-            }
-            
-            QCalendarWidget QSpinBox {
-                background-color: white;
-                border: 1px solid #bdc3c7;
-                border-radius: 4px;
-                padding: 4px;
-            }
-            
-            QLabel {
-                color: #2c3e50;
-            }
-        """
-    
-    def _get_today_button_stylesheet(self) -> str:
-        # Get the Today button specific stylesheet.
-        return """
-            QPushButton {
-                background-color: #FF5722;
-                color: white;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #E64A19;
-            }
-            QPushButton:pressed {
-                background-color: #D84315;
-            }
-        """
+            self.today_btn.setStyleSheet(get_today_button_stylesheet())
     
     def _connect_signals(self) -> None:
         # Connect UI signals to their respective slot methods.
@@ -258,50 +162,3 @@ class SimpleCalendar(QMainWindow):
         if self.selected_date_label:
             date_str = date.toString(CalendarConfig.DATE_FORMAT)
             self.selected_date_label.setText(f"Selected Date: {date_str}")
-
-
-class CalendarApplication:
-    # Application manager for the Simple Calendar.
-    
-    def __init__(self) -> None:
-        # Initialize the application.
-        self.app: Optional[QApplication] = None
-        self.window: Optional[SimpleCalendar] = None
-    
-    def setup_application(self) -> None:
-        # Set up the QApplication with proper configuration.
-        self.app = QApplication(sys.argv)
-        self.app.setApplicationName("Simple Calendar")
-        self.app.setApplicationVersion("1.0")
-    
-    def create_window(self) -> None:
-        # Create and configure the main window.
-        self.window = SimpleCalendar()
-    
-    def run(self) -> int:
-        # Run the application event loop.
-        if not self.app or not self.window:
-            raise RuntimeError("Application not properly initialized")
-        
-        self.window.show()
-        return self.app.exec()
-    
-    def start(self) -> int:
-        # Start the complete application.
-        self.setup_application()
-        self.create_window()
-        return self.run()
-
-
-def main() -> int:
-    # Application entry point.
-    try:
-        calendar_app = CalendarApplication()
-        return calendar_app.start()
-    except Exception as e:
-        print(f"Error starting application: {e}")
-        return 1
-
-
-if __name__ == "__main__":
-    sys.exit(main())
