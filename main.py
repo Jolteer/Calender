@@ -1,7 +1,6 @@
 # Main entry point for the ADHD Calendar application.
 
 import sys
-
 from core.application import CalendarApplication
 
 
