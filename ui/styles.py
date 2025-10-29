@@ -47,12 +47,12 @@ def get_main_stylesheet() -> str:
         }
         
         QCalendarWidget QMenu {
-            background-color: white;
+            background-color: red;
             border: 1px solid #bdc3c7;
         }
         
         QCalendarWidget QSpinBox {
-            background-color: white;
+            background-color: red;
             border: 1px solid #bdc3c7;
             border-radius: 4px;
             padding: 4px;
