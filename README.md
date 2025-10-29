@@ -1,4 +1,4 @@
-# ADHD Calendar
+# Calendar Application
 
 A simple, clean calendar application built with PySide6 (Qt for Python) designed for easy navigation and minimal distractions.
 
@@ -11,91 +11,194 @@ A simple, clean calendar application built with PySide6 (Qt for Python) designed
 - 🚫 **No Clutter** - Week numbers removed for cleaner appearance
 - ⚡ **Lightweight** - Fast startup and responsive interface
 
-## Screenshots
-
-The calendar features a clean, modern interface with:
-- Blue navigation buttons for month switching
-- Orange "Today" button for quick navigation
-- Selected date display at the bottom
-- Grid layout without week numbers for clarity
-
 ## Requirements
 
 - Python 3.7+
 - PySide6
 
-## Installation
+## Installation & Setup
 
-### Option 1: Using Virtual Environment (Recommended)
+### Step 1: Clone the Repository
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/Jolteer/Adhd-calender.git
-cd Adhd-calender
+git clone https://github.com/Jolteer/Calender.git
+cd Calender
 ```
 
-2. Create and activate virtual environment:
+### Step 2: Set Up Python Environment
+
+#### Option A: Using Virtual Environment (Recommended)
+
+**On Windows:**
 ```bash
+# Create virtual environment
 python -m venv .venv
-# On Windows:
+
+# Activate virtual environment
+.venv\Scripts\activate.bat
+# or for PowerShell:
 .venv\Scripts\Activate.ps1
-# On macOS/Linux:
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+**On macOS/Linux:**
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
 source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-3. Install dependencies:
+#### Option B: Global Installation
+
 ```bash
-pip install PySide6
+pip install PySide6>=6.10.0
 ```
 
-### Option 2: Global Installation
+## Running the Application
 
-1. Install PySide6 globally:
-```bash
-pip install PySide6
-```
+### Method 1: Using Convenience Scripts (Windows)
 
-2. Download the `calender.py` file
+**Batch Script:**
+- Double-click `run_calendar.bat`
 
-## Usage
+**PowerShell Script:**
+- Right-click `run_calendar.ps1` → "Run with PowerShell"
+- Or from PowerShell: `.\run_calendar.ps1`
 
-### Running the Application
+### Method 2: Command Line
 
 **With Virtual Environment:**
 ```bash
-# Make sure virtual environment is activated
-.venv\Scripts\Activate.ps1  # Windows
+# Activate virtual environment first
+.venv\Scripts\activate.bat  # Windows
 source .venv/bin/activate   # macOS/Linux
 
-python calender.py
+# Run the application
+python main.py
 ```
 
 **Without Virtual Environment:**
 ```bash
-python calender.py
+python main.py
 ```
 
-**Using the Convenience Scripts:**
-- Double-click `run_calendar.bat` (Windows Batch)
-- Run `run_calendar.ps1` (PowerShell)
+## File Structure
 
-### Application Controls
+```
+Calendar/
+├── main.py                 # Application entry point
+├── requirements.txt        # Python dependencies
+├── run_calendar.bat       # Windows batch script
+├── run_calendar.ps1       # PowerShell script
+├── README.md              # This file
+├── config/
+│   └── settings.py        # Application configuration
+├── core/
+│   ├── __init__.py
+│   └── application.py     # Main application logic
+├── ui/
+│   ├── __init__.py
+│   ├── calendar_window.py # Calendar window implementation
+│   └── styles.py          # UI styling
+└── .venv/                 # Virtual environment (created after setup)
+```
+
+## Application Controls
 
 - **Previous/Next Buttons**: Navigate between months
 - **Today Button**: Jump to current date instantly
 - **Date Selection**: Click any date to select it
 - **Date Display**: View selected date at the bottom
 
-## File Structure
+## Code Architecture
 
+The application follows clean code principles with a modular structure:
+
+### Main Components
+
+- **`main.py`**: Application entry point
+- **`core/application.py`**: Main application logic and lifecycle management
+- **`ui/calendar_window.py`**: Calendar window implementation
+- **`ui/styles.py`**: UI styling definitions
+- **`config/settings.py`**: Configuration constants
+
+### Key Features
+
+- **Modular Design**: Clean separation of concerns
+- **Configuration Management**: Centralized settings
+- **Modern UI**: PySide6-based interface
+- **Cross-Platform**: Works on Windows, macOS, and Linux
+
+## Customization
+
+You can customize the application by modifying the settings in `config/settings.py`:
+
+```python
+class CalendarConfig:
+    WINDOW_TITLE = "Your Custom Title"
+    WINDOW_WIDTH = 800  # Change window size
+    WINDOW_HEIGHT = 600
+    # ... other settings
 ```
-Adhd-calender/
-├── calender.py           # Main application file
-├── run_calendar.bat      # Windows batch script
-├── run_calendar.ps1      # PowerShell script
-├── README.md            # This file
-└── .venv/               # Virtual environment (if used)
+
+## Troubleshooting
+
+### Common Issues
+
+**PySide6 Import Error:**
+```bash
+pip install PySide6>=6.10.0
 ```
+
+**Virtual Environment Issues:**
+```bash
+# Remove and recreate virtual environment
+# Windows:
+rmdir /s .venv
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install -r requirements.txt
+
+# macOS/Linux:
+rm -rf .venv
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+**Permission Issues (Windows PowerShell):**
+If you get execution policy errors, run PowerShell as Administrator and execute:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Author
+
+**Jolteer**
+- GitHub: [@Jolteer](https://github.com/Jolteer)
+
+---
+
+*Simple, clean, and focused - just the way a calendar should be.* 📅
 
 ## Code Architecture
 
