@@ -66,7 +66,7 @@ class SimpleCalendar(QMainWindow):
     def _create_title_label(self) -> QLabel:
         # Create and configure the title label.
         title = QLabel(CalendarConfig.TITLE_TEXT)
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 20px; font-weight: bold; margin: 15px;")
         return title
     
@@ -96,7 +96,7 @@ class SimpleCalendar(QMainWindow):
     def _create_date_info_label(self) -> QLabel:
         # Create the selected date information label.
         self.selected_date_label = QLabel()
-        self.selected_date_label.setAlignment(Qt.AlignCenter)
+        self.selected_date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.selected_date_label.setStyleSheet(
             "font-size: 16px; margin: 10px; padding: 10px; "
             "background-color: #e3f2fd; border-radius: 5px;"
