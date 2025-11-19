@@ -215,6 +215,19 @@ class Calendar {
     }
 
     /**
+     * Convert 24-hour time to 12-hour AM/PM format
+     * @param {string} time24 - Time in HH:MM format (24-hour)
+     * @returns {string} Time in 12-hour AM/PM format
+     */
+    convertTo12Hour(time24) {
+        const [hours24, minutes] = time24.split(':').map(Number);
+        const period = hours24 >= 12 ? 'PM' : 'AM';
+        let hours12 = hours24 % 12;
+        hours12 = hours12 || 12; // Convert 0 to 12
+        return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
+    }
+
+    /**
      * Render the monthly calendar view
      */
     renderMonthlyView() {
@@ -483,7 +496,9 @@ class Calendar {
                 titleEl.textContent = event.title;
                 
                 const timeEl = document.createElement('small');
-                timeEl.textContent = `${event.startTime} - ${event.endTime}`;
+                const startTime12 = this.convertTo12Hour(event.startTime);
+                const endTime12 = this.convertTo12Hour(event.endTime);
+                timeEl.textContent = `${startTime12} - ${endTime12}`;
                 
                 eventDiv.appendChild(titleEl);
                 eventDiv.appendChild(document.createElement('br'));

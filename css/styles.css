@@ -53,6 +53,12 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     overflow: hidden;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+/* Prevent horizontal overflow on table containers */
+.table-responsive {
+    overflow-x: hidden !important;
 }
 
 /* Header - Sticky navigation bar with title and view toggle buttons */
@@ -108,6 +114,11 @@ header h1 {
     margin: 30px;
     border-collapse: separate;
     border-spacing: 8px; /* Space between cells */
+    width: calc(100% - 60px); /* Fit within container with margins */
+    table-layout: fixed; /* Equal column widths */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 10px;
 }
 
 /* Monthly Calendar Headers - Day names (Sun, Mon, etc.) */
@@ -128,6 +139,7 @@ header h1 {
 /* Monthly Calendar Cells - Individual day boxes */
 .monthly-calendar td {
     height: 120px;
+    width: 14.28%; /* Equal width for 7 columns */
     vertical-align: top;
     padding: 12px;
     border: 2px solid transparent;
@@ -195,6 +207,9 @@ header h1 {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--card-shadow);
+    width: calc(100% - 60px); /* Fit within container with margins */
+    table-layout: fixed; /* Equal column widths */
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Weekly Calendar Headers - Day name and date display */
