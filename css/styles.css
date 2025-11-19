@@ -73,6 +73,18 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Live Clock - Digital time display */
+#liveClock {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* Navigation Bar - Contains prev/next/today buttons and period display */
 .navigation {
     background: linear-gradient(to right, #E0F2FE, #CFFAFE, #DBEAFE);

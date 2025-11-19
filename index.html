@@ -22,8 +22,11 @@
         <!-- Sticky header with title and view toggle buttons -->
         <header class="py-3 border-bottom">
             <div class="d-flex justify-content-between align-items-center">
-                <!-- Application title -->
-                <h1 class="h3 mb-0">Calendar</h1>
+                <!-- Application title and live clock -->
+                <div class="d-flex align-items-center gap-3">
+                    <h1 class="h3 mb-0">Calendar</h1>
+                    <div id="liveClock" class="text-white fs-5 fw-semibold"></div>
+                </div>
                 
                 <!-- View switcher buttons (Weekly/Monthly) -->
                 <div class="btn-group" role="group">

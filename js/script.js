@@ -620,7 +620,32 @@ class Calendar {
     }
 }
 
+/**
+ * Live Clock - Updates every second to show current time
+ */
+function updateClock() {
+    const clockElement = document.getElementById('liveClock');
+    if (clockElement) {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        
+        // Convert to 12-hour format with AM/PM
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 should be 12
+        const hoursStr = hours.toString().padStart(2, '0');
+        
+        clockElement.textContent = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+    }
+}
+
 // Initialize calendar when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     new Calendar();
+    
+    // Start the live clock
+    updateClock(); // Update immediately
+    setInterval(updateClock, 1000); // Update every second
 });
