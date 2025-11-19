@@ -96,16 +96,17 @@ code {
 
 # 🔴 Sprint 1: Challenges ⚠️
 
+- original design
 - Current day feature
 - Positioning events in weekly view was tricky
-- Learning Bootstrap grid system took time
-- Making events clickable/editable required rework
+- Getting days to line up correct
+- Making events clickable/editable
 
 ---
 
 # 📅 Sprint 2 Weekly Progress
 
-**Week 6 (Oct 12-18):** Added comprehensive JSDoc comments throughout codebase
+**Week 6 (Oct 12-18):** Added comprehensive code comments throughout codebase
 **Week 7 (Oct 19-25):** Implemented live clock with real-time 12-hour display
 **Week 8 (Oct 26-Nov 1):** Removed duplicate CSS and cleaned up UI animations
 **Week 9 (Nov 2-8):** Major refactoring for performance improvements
@@ -120,16 +121,15 @@ code {
 - File organization made code easier to find
 - Removing duplicate CSS 
 - Documentation helped to lay out what does what
-- UI polish (borders, centering) looked professional
+- UI polish borders andcentering looked more appealing
 
 ---
 
 # 🔴 Sprint 2: Challenges ⚠️
 
-- MongoDB integration is harder than expected (still doing)
-- Converting 24hr to 12hr format required regex
+- MongoDB integration (urrent work in progress)
+- Converting 24hr to 12hr format
 - Fixing horizontal scroll took multiple attempts
-- Finding and removing duplicate CSS was tedious
 - Getting data to sync and convert for mongo
 ---
 
