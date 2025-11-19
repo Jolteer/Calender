@@ -570,66 +570,6 @@ html {
     }
 }
 
-/* ========== RESPONSIVE DESIGN ========== */
-
-/* Mobile/Tablet optimizations */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    .container-fluid {
-        border-radius: 15px;
-        min-height: calc(100vh - 20px);
-    }
-
-    /* Smaller monthly calendar cells on mobile */
-    .monthly-calendar {
-        margin: 15px;
-        border-spacing: 4px;
-    }
-
-    .monthly-calendar td {
-        height: 70px;
-        font-size: 11px;
-        padding: 6px;
-    }
-
-    .day-number {
-        font-size: 13px;
-    }
-
-    /* Shorter weekly cells on mobile */
-    .weekly-calendar {
-        margin: 15px;
-    }
-
-    .weekly-day-cell {
-        height: 400px;
-        min-height: 400px;
-    }
-
-    /* Smaller text sizes */
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    .navigation h2 {
-        font-size: 1.1rem;
-    }
-
-    /* Smaller button padding */
-    .btn-outline-secondary {
-        padding: 8px 12px;
-        font-size: 0.85rem;
-    }
-
-    .btn-group .btn {
-        padding: 8px 12px;
-        font-size: 0.85rem;
-    }
-}
-
 /* ========== PRINT STYLES ========== */
 
 /* Optimize for printing */
