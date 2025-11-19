@@ -338,16 +338,6 @@ header h1 {
     transform: translateY(0);
 }
 
-/* ========== COLOR-CODED DAY INDICATORS ========== */
-/* Each day of week gets a unique color for better visual distinction (ADHD-friendly) */
-.monthly-calendar td:nth-child(1) .day-number { color: var(--accent-orange); } /* Sunday */
-.monthly-calendar td:nth-child(2) .day-number { color: var(--accent-blue); } /* Monday */
-.monthly-calendar td:nth-child(3) .day-number { color: var(--accent-green); } /* Tuesday */
-.monthly-calendar td:nth-child(4) .day-number { color: var(--primary-color); } /* Wednesday */
-.monthly-calendar td:nth-child(5) .day-number { color: var(--accent-yellow); } /* Thursday */
-.monthly-calendar td:nth-child(6) .day-number { color: var(--secondary-color); } /* Friday */
-.monthly-calendar td:nth-child(7) .day-number { color: var(--accent-orange); } /* Saturday */
-
 /* ========== EVENT STYLES ========== */
 
 /* Event Container in Monthly View - Holds event badges */
