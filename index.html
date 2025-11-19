@@ -1,199 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Character encoding for proper text display -->
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <!-- Responsive viewport settings for mobile devices -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar - Monthly & Weekly View</title>
-    
+
     <!-- Bootstrap 5 CSS framework for responsive layout and components -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Bootstrap Icons for UI icons (calendar, chevrons, save, trash, etc.) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
     <!-- Custom styles for calendar theming and layout -->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <!-- Main container with fluid width -->
     <div class="container-fluid">
-        
-        <!-- ========== HEADER SECTION ========== -->
-        <!-- Sticky header with title and view toggle buttons -->
-        <header class="py-3 border-bottom">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Application title and live clock -->
-                <div class="d-flex align-items-center gap-3">
-                    <h1 class="h3 mb-0">Calendar</h1>
-                    <div id="liveClock" class="text-white fs-5 fw-semibold"></div>
-                </div>
-                
-                <!-- View switcher buttons (Weekly/Monthly) -->
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary" id="weekViewBtn">
-                        <i class="bi bi-calendar-week"></i> Weekly
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" id="monthViewBtn">
-                        <i class="bi bi-calendar-month"></i> Monthly
-                    </button>
-                </div>
-            </div>
-        </header>
+      <!-- ========== HEADER SECTION ========== -->
+      <!-- Sticky header with title and view toggle buttons -->
+      <header class="py-3 border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- Application title and live clock -->
+          <div class="d-flex align-items-center gap-3">
+            <h1 class="h3 mb-0">Calendar</h1>
+            <div id="liveClock" class="text-white fs-5 fw-semibold"></div>
+          </div>
 
-        <!-- ========== NAVIGATION SECTION ========== -->
-        <!-- Navigation bar with prev/next/today buttons and current period display -->
-        <div class="navigation py-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Navigation controls -->
-                <div>
-                    <button class="btn btn-outline-secondary btn-sm" id="prevBtn">
-                        <i class="bi bi-chevron-left"></i> Previous
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm" id="todayBtn">Today</button>
-                    <button class="btn btn-outline-secondary btn-sm" id="nextBtn">
-                        Next <i class="bi bi-chevron-right"></i>
-                    </button>
-                </div>
-                
-                <!-- Current period display (e.g., "November 2025" or "Nov 10 - Nov 16") -->
-                <h2 class="h4 mb-0" id="currentPeriod"></h2>
-            </div>
+          <!-- View switcher buttons (Weekly/Monthly) -->
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="weekViewBtn"
+            >
+              <i class="bi bi-calendar-week"></i> Weekly
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="monthViewBtn"
+            >
+              <i class="bi bi-calendar-month"></i> Monthly
+            </button>
+          </div>
         </div>
+      </header>
 
-        <!-- ========== MONTHLY VIEW ========== -->
-        <!-- Traditional calendar grid showing full month -->
-        <div id="monthlyView" class="calendar-view">
-            <div class="table-responsive">
-                <table class="table table-bordered monthly-calendar">
-                    <!-- Day names header -->
-                    <thead>
-                        <tr>
-                            <th>Sunday</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
-                        </tr>
-                    </thead>
-                    <!-- Calendar days - dynamically generated by JavaScript -->
-                    <tbody id="monthlyCalendarBody">
-                        <!-- Generated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+      <!-- ========== NAVIGATION SECTION ========== -->
+      <!-- Navigation bar with prev/next/today buttons and current period display -->
+      <div class="navigation py-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- Navigation controls -->
+          <div>
+            <button class="btn btn-outline-secondary btn-sm" id="prevBtn">
+              <i class="bi bi-chevron-left"></i> Previous
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" id="todayBtn">
+              Today
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" id="nextBtn">
+              Next <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
 
-        <!-- ========== WEEKLY VIEW ========== -->
-        <!-- Week view showing 7 vertical day columns -->
-        <div id="weeklyView" class="calendar-view d-none">
-            <div class="table-responsive">
-                <table class="table table-bordered weekly-calendar">
-                    <!-- Day headers with name and date - dynamically generated -->
-                    <thead>
-                        <tr>
-                            <th id="sun-header"></th>
-                            <th id="mon-header"></th>
-                            <th id="tue-header"></th>
-                            <th id="wed-header"></th>
-                            <th id="thu-header"></th>
-                            <th id="fri-header"></th>
-                            <th id="sat-header"></th>
-                        </tr>
-                    </thead>
-                    <!-- Day columns - dynamically generated by JavaScript -->
-                    <tbody id="weeklyCalendarBody">
-                        <!-- Generated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+          <!-- Current period display (e.g., "November 2025" or "Nov 10 - Nov 16") -->
+          <h2 class="h4 mb-0" id="currentPeriod"></h2>
         </div>
+      </div>
+
+      <!-- ========== MONTHLY VIEW ========== -->
+      <!-- Traditional calendar grid showing full month -->
+      <div id="monthlyView" class="calendar-view">
+        <div class="table-responsive">
+          <table class="table table-bordered monthly-calendar">
+            <!-- Day names header -->
+            <thead>
+              <tr>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+              </tr>
+            </thead>
+            <!-- Calendar days - dynamically generated by JavaScript -->
+            <tbody id="monthlyCalendarBody">
+              <!-- Generated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========== WEEKLY VIEW ========== -->
+      <!-- Week view showing 7 vertical day columns -->
+      <div id="weeklyView" class="calendar-view d-none">
+        <div class="table-responsive">
+          <table class="table table-bordered weekly-calendar">
+            <!-- Day headers with name and date - dynamically generated -->
+            <thead>
+              <tr>
+                <th id="sun-header"></th>
+                <th id="mon-header"></th>
+                <th id="tue-header"></th>
+                <th id="wed-header"></th>
+                <th id="thu-header"></th>
+                <th id="fri-header"></th>
+                <th id="sat-header"></th>
+              </tr>
+            </thead>
+            <!-- Day columns - dynamically generated by JavaScript -->
+            <tbody id="weeklyCalendarBody">
+              <!-- Generated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- ========== EVENT MODAL ========== -->
     <!-- Modal dialog for creating/editing events -->
-    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal header with title and close button -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalLabel">Add Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div
+      class="modal fade"
+      id="eventModal"
+      tabindex="-1"
+      aria-labelledby="eventModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal header with title and close button -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="eventModalLabel">Add Event</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- Modal body with event form -->
+          <div class="modal-body">
+            <form id="eventForm">
+              <!-- Hidden field to store event ID when editing -->
+              <input type="hidden" id="eventId" />
+
+              <!-- Event title input -->
+              <div class="mb-3">
+                <label for="eventTitle" class="form-label">Event Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="eventTitle"
+                  required
+                />
+              </div>
+
+              <!-- Event date picker -->
+              <div class="mb-3">
+                <label for="eventDate" class="form-label">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="eventDate"
+                  required
+                />
+              </div>
+
+              <!-- Start and end time inputs (side by side) -->
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="eventStartTime" class="form-label"
+                    >Start Time</label
+                  >
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="eventStartTime"
+                    required
+                  />
                 </div>
-                
-                <!-- Modal body with event form -->
-                <div class="modal-body">
-                    <form id="eventForm">
-                        <!-- Hidden field to store event ID when editing -->
-                        <input type="hidden" id="eventId">
-                        
-                        <!-- Event title input -->
-                        <div class="mb-3">
-                            <label for="eventTitle" class="form-label">Event Title</label>
-                            <input type="text" class="form-control" id="eventTitle" required>
-                        </div>
-                        
-                        <!-- Event date picker -->
-                        <div class="mb-3">
-                            <label for="eventDate" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="eventDate" required>
-                        </div>
-                        
-                        <!-- Start and end time inputs (side by side) -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="eventStartTime" class="form-label">Start Time</label>
-                                <input type="time" class="form-control" id="eventStartTime" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="eventEndTime" class="form-label">End Time</label>
-                                <input type="time" class="form-control" id="eventEndTime" required>
-                            </div>
-                        </div>
-                        
-                        <!-- Event description textarea (optional) -->
-                        <div class="mb-3">
-                            <label for="eventDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
-                        </div>
-                        
-                        <!-- Color picker dropdown -->
-                        <div class="mb-3">
-                            <label for="eventColor" class="form-label">Color</label>
-                            <select class="form-select" id="eventColor">
-                                <option value="#0EA5E9">Blue</option>
-                                <option value="#10B981">Green</option>
-                                <option value="#F59E0B">Yellow</option>
-                                <option value="#F97316">Orange</option>
-                                <option value="#EF4444">Red</option>
-                                <option value="#8B5CF6">Purple</option>
-                                <option value="#EC4899">Pink</option>
-                            </select>
-                        </div>
-                    </form>
+                <div class="col-md-6 mb-3">
+                  <label for="eventEndTime" class="form-label">End Time</label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="eventEndTime"
+                    required
+                  />
                 </div>
-                
-                <!-- Modal footer with action buttons -->
-                <div class="modal-footer">
-                    <!-- Delete button (only visible when editing existing event) -->
-                    <button type="button" class="btn btn-danger" id="deleteEventBtn" style="display: none;">
-                        <i class="bi bi-trash"></i> Delete
-                    </button>
-                    <!-- Cancel button -->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <!-- Save button -->
-                    <button type="button" class="btn btn-primary" id="saveEventBtn">
-                        <i class="bi bi-save"></i> Save
-                    </button>
-                </div>
-            </div>
+              </div>
+
+              <!-- Event description textarea (optional) -->
+              <div class="mb-3">
+                <label for="eventDescription" class="form-label"
+                  >Description</label
+                >
+                <textarea
+                  class="form-control"
+                  id="eventDescription"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <!-- Color picker dropdown -->
+              <div class="mb-3">
+                <label for="eventColor" class="form-label">Color</label>
+                <select class="form-select" id="eventColor">
+                  <option value="#0EA5E9">Blue</option>
+                  <option value="#10B981">Green</option>
+                  <option value="#F59E0B">Yellow</option>
+                  <option value="#F97316">Orange</option>
+                  <option value="#EF4444">Red</option>
+                  <option value="#8B5CF6">Purple</option>
+                  <option value="#EC4899">Pink</option>
+                </select>
+              </div>
+            </form>
+          </div>
+
+          <!-- Modal footer with action buttons -->
+          <div class="modal-footer">
+            <!-- Delete button (only visible when editing existing event) -->
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="deleteEventBtn"
+              style="display: none"
+            >
+              <i class="bi bi-trash"></i> Delete
+            </button>
+            <!-- Cancel button -->
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <!-- Save button -->
+            <button type="button" class="btn btn-primary" id="saveEventBtn">
+              <i class="bi bi-save"></i> Save
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Bootstrap JavaScript bundle (includes Popper for modals) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript for calendar functionality -->
     <script src="js/script.js"></script>
-</body>
+  </body>
 </html>
