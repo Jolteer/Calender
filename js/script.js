@@ -9,8 +9,11 @@ class Calendar {
     static MONTH_NAMES_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     static DAY_NAMES = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    static STORAGE_KEY = 'calendarEvents'; // LocalStorage key for events
-    static DEFAULT_EVENT_HOUR = 9; // Default time when creating new events
+    static STORAGE_KEY = 'calendarEvents';
+    static DEFAULT_EVENT_HOUR = 9;
+    static DAYS_IN_WEEK = 7;
+    static CELL_HEIGHT_MONTHLY = 120;
+    static CELL_HEIGHT_WEEKLY = 600;
 
     /**
      * Initialize the calendar application
@@ -80,15 +83,28 @@ class Calendar {
      * @returns {Array} Array of event objects
      */
     loadEvents() {
-        const stored = localStorage.getItem(Calendar.STORAGE_KEY);
-        return stored ? JSON.parse(stored) : [];
+        try {
+            const stored = localStorage.getItem(Calendar.STORAGE_KEY);
+            if (!stored) return [];
+            
+            const events = JSON.parse(stored);
+            return Array.isArray(events) ? events : [];
+        } catch (error) {
+            console.error('Failed to load events from localStorage:', error);
+            return [];
+        }
     }
 
     /**
      * Save current events to localStorage
      */
     saveEvents() {
-        localStorage.setItem(Calendar.STORAGE_KEY, JSON.stringify(this.events));
+        try {
+            localStorage.setItem(Calendar.STORAGE_KEY, JSON.stringify(this.events));
+        } catch (error) {
+            console.error('Failed to save events to localStorage:', error);
+            alert('Unable to save event. Storage may be full.');
+        }
     }
 
     /**
@@ -315,9 +331,19 @@ class Calendar {
      */
     getWeekStart(date) {
         const d = new Date(date);
-        const day = d.getDay(); // 0 = Sunday
+        const day = d.getDay();
         const diff = d.getDate() - day;
-        return new Date(d.setDate(diff));
+        d.setDate(diff);
+        this.normalizeDate(d);
+        return d;
+    }
+
+    /**
+     * Normalize date to midnight to avoid timezone issues
+     * @param {Date} date - Date to normalize
+     */
+    normalizeDate(date) {
+        date.setHours(0, 0, 0, 0);
     }
 
     /**
@@ -350,12 +376,23 @@ class Calendar {
             const headerClass = isToday ? 'current-day-header' : '';
             
             // Display day name and date
-            document.getElementById(headerIds[i]).innerHTML = `
-                <div class="day-header ${headerClass}">
-                    <div class="day-name">${Calendar.DAY_NAMES[i]}</div>
-                    <div class="day-date">${currentDay.getDate()}</div>
-                </div>
-            `;
+            const header = document.getElementById(headerIds[i]);
+            header.innerHTML = '';
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = `day-header ${headerClass}`;
+            
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'day-name';
+            nameDiv.textContent = Calendar.DAY_NAMES[i];
+            
+            const dateDiv = document.createElement('div');
+            dateDiv.className = 'day-date';
+            dateDiv.textContent = currentDay.getDate();
+            
+            headerDiv.appendChild(nameDiv);
+            headerDiv.appendChild(dateDiv);
+            header.appendChild(headerDiv);
         }
     }
 
@@ -398,14 +435,23 @@ class Calendar {
      * Render events in the monthly calendar view
      */
     renderEventsInMonthlyView() {
-        this.events.forEach(event => {
-            const cell = document.querySelector(`.monthly-calendar td[data-date="${event.date}"]`);
-            if (cell) {
-                const container = cell.querySelector('.events-container');
+        // Group events by date for efficient rendering
+        const eventsByDate = this.groupEventsByDate();
+        
+        Object.entries(eventsByDate).forEach(([date, events]) => {
+            const cell = document.querySelector(`.monthly-calendar td[data-date="${date}"]`);
+            if (!cell) return;
+            
+            const container = cell.querySelector('.events-container');
+            const fragment = document.createDocumentFragment();
+            
+            events.forEach(event => {
                 const eventDiv = this.createEventElement(event, 'event-item');
-                eventDiv.textContent = event.title;
-                container.appendChild(eventDiv);
-            }
+                eventDiv.textContent = this.sanitizeHTML(event.title);
+                fragment.appendChild(eventDiv);
+            });
+            
+            container.appendChild(fragment);
         });
     }
 
@@ -432,12 +478,24 @@ class Calendar {
                 eventDiv.style.marginRight = '8px';
                 eventDiv.style.zIndex = `${10 + index}`;
                 
-                // Build event content with title, time, and optional description
-                let content = `<strong>${event.title}</strong><br><small>${event.startTime} - ${event.endTime}</small>`;
-                if (event.description && event.description.trim()) {
-                    content += `<br><span class="event-description">${event.description}</span>`;
+                // Build event content with title, time, and optional description (sanitized)
+                const titleEl = document.createElement('strong');
+                titleEl.textContent = event.title;
+                
+                const timeEl = document.createElement('small');
+                timeEl.textContent = `${event.startTime} - ${event.endTime}`;
+                
+                eventDiv.appendChild(titleEl);
+                eventDiv.appendChild(document.createElement('br'));
+                eventDiv.appendChild(timeEl);
+                
+                if (event.description?.trim()) {
+                    const descEl = document.createElement('span');
+                    descEl.className = 'event-description';
+                    descEl.textContent = event.description;
+                    eventDiv.appendChild(document.createElement('br'));
+                    eventDiv.appendChild(descEl);
                 }
-                eventDiv.innerHTML = content;
                 
                 cell.appendChild(eventDiv);
             });
@@ -574,7 +632,34 @@ class Calendar {
      * @returns {boolean} True if valid
      */
     validateEventData(data) {
-        return data.title && data.date && data.startTime && data.endTime;
+        if (!data.title?.trim() || !data.date || !data.startTime || !data.endTime) {
+            return false;
+        }
+        
+        // Validate date format (YYYY-MM-DD)
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(data.date)) {
+            return false;
+        }
+        
+        // Validate time format (HH:MM)
+        const timeRegex = /^\d{2}:\d{2}$/;
+        if (!timeRegex.test(data.startTime) || !timeRegex.test(data.endTime)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Sanitize HTML to prevent XSS attacks
+     * @param {string} text - Text to sanitize
+     * @returns {string} Sanitized text
+     */
+    sanitizeHTML(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     /**
