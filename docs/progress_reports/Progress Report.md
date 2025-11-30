@@ -17,7 +17,7 @@
   - Plan: Create foundation with responsive grid layout using Bootstrap 5
 - Progress: ~200 LoC, 1/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -28,7 +28,7 @@
   - Plan: Design vertical day layout and implement toggle between monthly/weekly views
 - Progress: ~400 LoC, 2/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -39,7 +39,7 @@
   - Plan: Build modal interface for event creation with form validation
 - Progress: ~600 LoC, 3/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -50,7 +50,7 @@
   - Plan: Implement browser storage and make events interactive
 - Progress: ~800 LoC, 4/8 major features complete (Sprint 1 Complete)
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -63,7 +63,7 @@
   - Plan: Document all functions, methods, and complex logic
 - Progress: ~800 LoC (fully commented), 5/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -74,7 +74,7 @@
   - Plan: Use setInterval for updates and implement time conversion
 - Progress: ~850 LoC, 6/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -85,7 +85,7 @@
   - Plan: Remove redundant CSS, fix horizontal scroll bug, improve animations
 - Progress: ~750 LoC (reduced through cleanup), 7/8 major features complete
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -96,7 +96,7 @@
   - Plan: Optimize DOM manipulation and event listener patterns
 - Progress: ~750 LoC (optimized), performance improvements implemented
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -107,7 +107,7 @@
   - Plan: Restructure folders, add borders/centering, enhance gradients
 - Progress: ~850 LoC, improved project organization
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -118,7 +118,7 @@
   - Plan: Build FastAPI backend, implement CRUD endpoints, sync with LocalStorage
 - Progress: ~1,500 LoC (backend added), 8/8 major features complete (Sprint 2 Complete)
 
-**Link to Weekly Progress Report:** https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+**Link to Weekly Progress Report:** https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
@@ -132,7 +132,7 @@
 **Link to Documentation:** 
 - User Manual: https://github.com/Jolteer/Calender/blob/Main-Computer/docs/user_manual.pdf
 - Architecture Doc: https://github.com/Jolteer/Calender/blob/Main-Computer/docs/architecture.pdf
-- Presentation: https://github.com/Jolteer/Calender/blob/Main-Computer/docs/presentation.pdf
+- Presentation: https://nku.instructure.com/courses/81924/pages/member-josh-day-individual-project-page
 
 ---
 
