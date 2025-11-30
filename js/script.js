@@ -1,6 +1,6 @@
 /**
  * Calendar Application
- * A feature-rich calendar with monthly and weekly views, event management, and local storage.
+ * A feature-rich calendar with monthly and weekly views, event management, and MongoDB cloud storage.
  */
 class Calendar {
     // Static constants for calendar configuration
@@ -9,7 +9,8 @@ class Calendar {
     static MONTH_NAMES_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     static DAY_NAMES = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    static STORAGE_KEY = 'calendarEvents';
+    static API_URL = 'http://localhost:8000'; // FastAPI backend URL
+    static STORAGE_KEY = 'calendarEvents'; // Kept for backwards compatibility
     static DEFAULT_EVENT_HOUR = 9;
     static DAYS_IN_WEEK = 7;
     static CELL_HEIGHT_MONTHLY = 120;
@@ -21,7 +22,7 @@ class Calendar {
     constructor() {
         this.currentDate = new Date(); // Current date being viewed
         this.currentView = 'month'; // Current view mode (month or week)
-        this.events = this.loadEvents(); // Load events from localStorage
+        this.events = []; // Events will be loaded from MongoDB
         this.eventModal = null; // Bootstrap modal instance
         this.elements = {}; // Cache for DOM elements
         this.init();
@@ -30,9 +31,10 @@ class Calendar {
     /**
      * Initialize the calendar after DOM is ready
      */
-    init() {
+    async init() {
         this.cacheElements(); // Store references to DOM elements
         this.setupEventListeners(); // Attach event handlers
+        await this.loadEvents(); // Load events from MongoDB
         this.renderMonthlyView(); // Render initial monthly view
         this.updateCurrentPeriod(); // Update the period display
         this.eventModal = new bootstrap.Modal(this.elements.eventModal); // Initialize modal
@@ -79,32 +81,31 @@ class Calendar {
     }
 
     /**
-     * Load events from browser's localStorage
-     * @returns {Array} Array of event objects
+     * Load events from MongoDB via FastAPI backend
+     * @returns {Promise<Array>} Array of event objects
      */
-    loadEvents() {
+    async loadEvents() {
         try {
-            const stored = localStorage.getItem(Calendar.STORAGE_KEY);
-            if (!stored) return [];
-            
-            const events = JSON.parse(stored);
-            return Array.isArray(events) ? events : [];
+            const response = await fetch(`${Calendar.API_URL}/events`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.events = await response.json();
+            return this.events;
         } catch (error) {
-            console.error('Failed to load events from localStorage:', error);
+            console.error('Failed to load events from API:', error);
+            alert('Unable to load events from server. Please check your connection.');
             return [];
         }
     }
 
     /**
-     * Save current events to localStorage
+     * Save events to MongoDB (deprecated - now saved directly via API calls)
+     * Kept for compatibility but no longer used
      */
     saveEvents() {
-        try {
-            localStorage.setItem(Calendar.STORAGE_KEY, JSON.stringify(this.events));
-        } catch (error) {
-            console.error('Failed to save events to localStorage:', error);
-            alert('Unable to save event. Storage may be full.');
-        }
+        // Events are now saved directly to MongoDB via API calls
+        // This method is kept for backwards compatibility but does nothing
     }
 
     /**
@@ -611,7 +612,7 @@ class Calendar {
     /**
      * Save a new or updated event
      */
-    saveEvent() {
+    async saveEvent() {
         // Collect form data
         const eventData = {
             id: this.elements.eventId.value,
@@ -629,16 +630,21 @@ class Calendar {
             return;
         }
 
-        // Update existing or create new event
-        if (eventData.id) {
-            this.updateExistingEvent(eventData);
-        } else {
-            this.createNewEvent(eventData);
-        }
+        try {
+            // Update existing or create new event
+            if (eventData.id) {
+                await this.updateExistingEvent(eventData);
+            } else {
+                await this.createNewEvent(eventData);
+            }
 
-        this.saveEvents(); // Persist to localStorage
-        this.eventModal.hide();
-        this.refreshCurrentView(); // Re-render calendar
+            await this.loadEvents(); // Reload events from API
+            this.eventModal.hide();
+            this.refreshCurrentView(); // Re-render calendar
+        } catch (error) {
+            console.error('Failed to save event:', error);
+            alert('Failed to save event. Please try again.');
+        }
     }
 
     /**
@@ -678,37 +684,79 @@ class Calendar {
     }
 
     /**
-     * Update an existing event in the events array
+     * Update an existing event in MongoDB via API
      * @param {Object} eventData - Updated event data
      */
-    updateExistingEvent(eventData) {
-        const index = this.events.findIndex(e => e.id === eventData.id);
-        if (index !== -1) {
-            this.events[index] = eventData;
+    async updateExistingEvent(eventData) {
+        try {
+            const response = await fetch(`${Calendar.API_URL}/events/${eventData.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(eventData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to update event:', error);
+            throw error;
         }
     }
 
     /**
-     * Create a new event and add it to the events array
+     * Create a new event in MongoDB via API
      * @param {Object} eventData - New event data
      */
-    createNewEvent(eventData) {
-        eventData.id = Date.now().toString(); // Generate unique ID
-        this.events.push(eventData);
+    async createNewEvent(eventData) {
+        try {
+            const response = await fetch(`${Calendar.API_URL}/events`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(eventData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to create event:', error);
+            throw error;
+        }
     }
 
     /**
-     * Delete an event after confirmation
+     * Delete an event from MongoDB via API
      */
-    deleteEvent() {
+    async deleteEvent() {
         const eventId = this.elements.eventId.value;
         if (!eventId) return;
 
         if (confirm('Are you sure you want to delete this event?')) {
-            this.events = this.events.filter(e => e.id !== eventId);
-            this.saveEvents();
-            this.eventModal.hide();
-            this.refreshCurrentView();
+            try {
+                const response = await fetch(`${Calendar.API_URL}/events/${eventId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                await this.loadEvents(); // Reload events from API
+                this.eventModal.hide();
+                this.refreshCurrentView();
+            } catch (error) {
+                console.error('Failed to delete event:', error);
+                alert('Failed to delete event. Please try again.');
+            }
         }
     }
 
