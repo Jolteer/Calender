@@ -15,13 +15,29 @@ A modern, ADHD-friendly calendar application with monthly and weekly views, buil
 
 ```
 Calender-1/
-├── index.html          # Main HTML file
-├── css/
-│   └── styles.css      # All CSS styles and theming
-├── js/
-│   └── script.js       # Calendar logic and event handling
-├── assets/             # For future images, icons, or media files
-└── README.md           # Project documentation
+├── docs/                       # Documentation
+│   ├── architecture.md         # Architecture documentation (Marp)
+│   ├── architecture.pdf        # Architecture PDF
+│   ├── user_manual.md          # User manual (Marp)
+│   ├── user_manual.pdf         # User manual PDF
+│   ├── presentation.md         # Project presentation (Marp)
+│   └── presentation.pdf        # Presentation PDF
+├── src/                        # Source code
+│   ├── frontend/               # Frontend application
+│   │   ├── index.html          # Main HTML file
+│   │   ├── css/
+│   │   │   └── styles.css      # All CSS styles and theming
+│   │   └── js/
+│   │       └── script.js       # Calendar logic and event handling
+│   └── backend/                # Backend API
+│       ├── main.py             # FastAPI backend server
+│       └── requirements.txt    # Python dependencies
+├── tests/                      # Test files
+│   ├── test_calendar.js        # Frontend tests
+│   ├── test_main.py            # Backend tests
+│   └── requirements-test.txt   # Test dependencies
+├── README.md                   # This file
+└── TEST_SUMMARY.md             # Test results summary
 ```
 
 ## Technologies Used
@@ -35,8 +51,16 @@ Calender-1/
 ## Getting Started
 
 1. Clone or download this repository
-2. Open `index.html` in a modern web browser
-3. No build process or dependencies required - it just works!
+2. Open `src/frontend/index.html` in a modern web browser
+3. No build process or dependencies required for frontend - it just works!
+
+### Running the Backend (Optional)
+If you want to use the backend API:
+```bash
+cd src/backend
+pip install -r requirements.txt
+python main.py
+```
 
 ## Usage
 
