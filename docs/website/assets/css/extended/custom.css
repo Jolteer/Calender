@@ -1,0 +1,95 @@
+/* Custom CSS for Calendar App Website */
+
+/* Color scheme matching the Calendar App */
+:root {
+    --calendar-primary: #0EA5E9;
+    --calendar-secondary: #06B6D4;
+    --calendar-gradient: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+}
+
+/* Custom link colors */
+.post-content a {
+    color: var(--calendar-primary);
+}
+
+.post-content a:hover {
+    color: var(--calendar-secondary);
+}
+
+/* Code block styling */
+.post-content pre {
+    border-radius: 8px;
+    border-left: 4px solid var(--calendar-primary);
+}
+
+/* Table styling */
+.post-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+.post-content th {
+    background: var(--calendar-gradient);
+    color: white;
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.post-content td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-content tr:hover {
+    background-color: var(--code-bg);
+}
+
+/* Emoji support in headings */
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Home info styling */
+.first-entry .entry-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Button-like links */
+.post-content a[href*="github"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Blockquote styling */
+.post-content blockquote {
+    border-left-color: var(--calendar-primary);
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, transparent 100%);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Inline code */
+.post-content code:not([class*="language-"]) {
+    background: var(--code-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Feature list styling */
+.post-content ul li::marker {
+    color: var(--calendar-primary);
+}
+
+/* Smooth transitions */
+a, button, .post-entry {
+    transition: all 0.2s ease;
+}
+
