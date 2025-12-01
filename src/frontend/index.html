@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========================================== -->
+    <!-- META INFORMATION & DEPENDENCIES           -->
+    <!-- ========================================== -->
+    
+    <!-- Character encoding for proper text display (UTF-8 supports all characters) -->
+    <meta charset="UTF-8">
+    
+    <!-- Responsive viewport settings for mobile devices - enables responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title shown in browser tab -->
+    <title>ScheduleSync</title>
+    
+    <!-- Bootstrap 5 CSS framework for responsive layout and components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons for UI icons (calendar, chevrons, save, trash, etc.) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Custom styles for calendar theming (blue ocean theme) and layout -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Main container with fluid width (uses full screen width) -->
+    <!-- role="main" indicates primary content area for screen readers -->
+    <div class="container-fluid" role="main">
+        
+        <!-- ========================================== -->
+        <!-- HEADER SECTION                            -->
+        <!-- ========================================== -->
+        <!-- Sticky header with title, live clock, and view toggle buttons -->
+        <!-- role="banner" indicates site header for accessibility -->
+        <header class="py-3 border-bottom" role="banner">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Left side: Application title and live clock -->
+                <div class="d-flex align-items-center gap-3">
+                    <h1 class="h3 mb-0">Calendar</h1>
+                    <!-- Live clock showing current time, updates every second -->
+                    <!-- aria-live="polite" announces time changes to screen readers -->
+                    <time id="liveClock" class="text-white fs-5 fw-semibold" aria-live="polite" aria-atomic="true"></time>
+                </div>
+                
+                <!-- Right side: View switcher buttons (Weekly/Monthly) -->
+                <div class="btn-group" role="group" aria-label="Calendar view options">
+                    <!-- Weekly view button -->
+                    <button type="button" class="btn btn-outline-primary" id="weekViewBtn" aria-label="Switch to weekly view">
+                        <i class="bi bi-calendar-week" aria-hidden="true"></i> Weekly
+                    </button>
+                    <!-- Monthly view button (default view) -->
+                    <button type="button" class="btn btn-outline-primary" id="monthViewBtn" aria-label="Switch to monthly view">
+                        <i class="bi bi-calendar-month" aria-hidden="true"></i> Monthly
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- NAVIGATION SECTION                        -->
+        <!-- ========================================== -->
+        <!-- Navigation bar with prev/next/today buttons and current period display -->
+        <!-- aria-label describes navigation purpose for screen readers -->
+        <nav class="navigation py-3" aria-label="Calendar navigation">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Left side: Navigation controls (Previous, Today, Next) -->
+                <div role="group" aria-label="Date navigation controls">
+                    <!-- Previous period button (goes back 1 month or 1 week depending on view) -->
+                    <button class="btn btn-outline-secondary btn-sm" id="prevBtn" aria-label="Go to previous period">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i> Previous
+                    </button>
+                    <!-- Today button - jumps to current date -->
+                    <button class="btn btn-outline-secondary btn-sm" id="todayBtn" aria-label="Go to today">Today</button>
+                    <!-- Next period button (goes forward 1 month or 1 week) -->
+                    <button class="btn btn-outline-secondary btn-sm" id="nextBtn" aria-label="Go to next period">
+                        Next <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <!-- Right side: Current period display -->
+                <!-- Shows "November 2024" in monthly view or "Nov 10 - Nov 16" in weekly view -->
+                <!-- aria-live="polite" announces changes when navigating -->
+                <h2 class="h4 mb-0" id="currentPeriod" aria-live="polite"></h2>
+            </div>
+        </nav>
+
+        <!-- ========================================== -->
+        <!-- MONTHLY VIEW                              -->
+        <!-- ========================================== -->
+        <!-- Traditional calendar grid showing full month (6 weeks x 7 days) -->
+        <!-- Includes days from previous/next months to fill the grid -->
+        <section id="monthlyView" class="calendar-view" aria-label="Monthly calendar view">
+            <div class="table-responsive">
+                <!-- Semantic table for calendar grid -->
+                <!-- role="grid" indicates interactive table for screen readers -->
+                <table class="table table-bordered monthly-calendar" role="grid" aria-label="Calendar grid">
+                    <!-- Day names header row (SUN, MON, TUE, etc.) -->
+                    <thead>
+                        <tr role="row">
+                            <!-- scope="col" indicates header for column -->
+                            <!-- abbr provides short version for screen readers -->
+                            <th scope="col" abbr="Sun">Sunday</th>
+                            <th scope="col" abbr="Mon">Monday</th>
+                            <th scope="col" abbr="Tue">Tuesday</th>
+                            <th scope="col" abbr="Wed">Wednesday</th>
+                            <th scope="col" abbr="Thu">Thursday</th>
+                            <th scope="col" abbr="Fri">Friday</th>
+                            <th scope="col" abbr="Sat">Saturday</th>
+                        </tr>
+                    </thead>
+                    <!-- Calendar days grid - dynamically generated by JavaScript -->
+                    <tbody id="monthlyCalendarBody">
+                        <!-- JavaScript generates calendar cells here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- WEEKLY VIEW                               -->
+        <!-- ========================================== -->
+        <!-- Week view showing 7 vertical day columns with full day schedules -->
+        <!-- Hidden by default (d-none class), shown when weekly view selected -->
+        <section id="weeklyView" class="calendar-view d-none" aria-label="Weekly calendar view">
+            <div class="table-responsive">
+                <!-- Weekly calendar table with 7 columns (one per day) -->
+                <table class="table table-bordered weekly-calendar" role="grid" aria-label="Weekly calendar grid">
+                    <!-- Day headers - show day name and date (e.g., "MON 11") -->
+                    <thead>
+                        <tr role="row">
+                            <!-- Each header dynamically filled by JavaScript with day name and date -->
+                            <th id="sun-header" scope="col"></th>
+                            <th id="mon-header" scope="col"></th>
+                            <th id="tue-header" scope="col"></th>
+                            <th id="wed-header" scope="col"></th>
+                            <th id="thu-header" scope="col"></th>
+                            <th id="fri-header" scope="col"></th>
+                            <th id="sat-header" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <!-- Day columns - dynamically generated by JavaScript -->
+                    <tbody id="weeklyCalendarBody">
+                        <!-- Generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========== EVENT MODAL ========== -->
+    <!-- Modal dialog for creating/editing events -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal header with title and close button -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Add Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close modal"></button>
+                </div>
+                
+                <!-- Modal body with event form -->
+                <div class="modal-body">
+                    <form id="eventForm" novalidate>
+                        <!-- Hidden field to store event ID when editing -->
+                        <input type="hidden" id="eventId" aria-hidden="true">
+                        
+                        <!-- Event title input -->
+                        <div class="mb-3">
+                            <label for="eventTitle" class="form-label">Event Title <span aria-label="required" class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="eventTitle" required aria-required="true" maxlength="100">
+                        </div>
+                        
+                        <!-- Event date picker -->
+                        <div class="mb-3">
+                            <label for="eventDate" class="form-label">Date <span aria-label="required" class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="eventDate" required aria-required="true">
+                        </div>
+                        
+                        <!-- Start and end time inputs (side by side) -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="eventStartTime" class="form-label">Start Time <span aria-label="required" class="text-danger">*</span></label>
+                                <input type="time" class="form-control" id="eventStartTime" required aria-required="true">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="eventEndTime" class="form-label">End Time <span aria-label="required" class="text-danger">*</span></label>
+                                <input type="time" class="form-control" id="eventEndTime" required aria-required="true">
+                            </div>
+                        </div>
+                        
+                        <!-- Event description textarea (optional) -->
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label">Description <span class="text-muted">(optional)</span></label>
+                            <textarea class="form-control" id="eventDescription" rows="3" maxlength="500" aria-describedby="descriptionHelp"></textarea>
+                            <small id="descriptionHelp" class="form-text text-muted">Maximum 500 characters</small>
+                        </div>
+                        
+                        <!-- Color picker dropdown -->
+                        <div class="mb-3">
+                            <label for="eventColor" class="form-label">Color</label>
+                            <select class="form-select" id="eventColor" aria-label="Select event color">
+                                <option value="#0EA5E9">Blue</option>
+                                <option value="#10B981">Green</option>
+                                <option value="#F59E0B">Yellow</option>
+                                <option value="#F97316">Orange</option>
+                                <option value="#EF4444">Red</option>
+                                <option value="#8B5CF6">Purple</option>
+                                <option value="#EC4899">Pink</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Modal footer with action buttons -->
+                <div class="modal-footer">
+                    <!-- Delete button (only visible when editing existing event) -->
+                    <button type="button" class="btn btn-danger" id="deleteEventBtn" style="display: none;" aria-label="Delete event">
+                        <i class="bi bi-trash" aria-hidden="true"></i> Delete
+                    </button>
+                    <!-- Cancel button -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancel and close">Cancel</button>
+                    <!-- Save button -->
+                    <button type="button" class="btn btn-primary" id="saveEventBtn" aria-label="Save event">
+                        <i class="bi bi-save" aria-hidden="true"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript bundle (includes Popper for modals) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript for calendar functionality -->
+    <script src="js/script.js"></script>
+</body>
+</html>

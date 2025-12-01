@@ -1,0 +1,615 @@
+/* 
+ * ===============================================
+ * CALENDAR APPLICATION STYLES
+ * ===============================================
+ * 
+ * A modern, ADHD-friendly blue ocean theme with smooth animations
+ * 
+ * Features:
+ * - CSS custom properties (variables) for easy theming
+ * - Responsive design with mobile-first approach
+ * - Smooth transitions and hover effects
+ * - Accessible color contrasts
+ * - Blue/cyan gradient theme throughout
+ * 
+ * Organization:
+ * 1. CSS Variables (color palette, spacing, shadows)
+ * 2. Global styles (body, container)
+ * 3. Header and navigation
+ * 4. Calendar views (monthly, weekly)
+ * 5. Event items
+ * 6. Modals and forms
+ * 7. Utility classes
+ */
+
+/* ===============================================
+ * CSS VARIABLES - Centralized design tokens
+ * ===============================================
+ * 
+ * All colors, spacing, shadows, and other design values
+ * are defined here for easy theming and consistency.
+ */
+:root {
+    /* PRIMARY COLOR SCHEME - Blue/cyan ocean theme */
+    --primary-color: #0EA5E9;      /* Main blue (buttons, highlights) */
+    --secondary-color: #06B6D4;    /* Cyan accent (gradients, hover states) */
+    
+    /* ACCENT COLORS - Used for event color-coding and CTAs */
+    --accent-blue: #3B82F6;        /* Bright blue for events */
+    --accent-green: #10B981;       /* Green for success/confirmations */
+    --accent-yellow: #F59E0B;      /* Yellow for warnings */
+    --accent-orange: #F97316;      /* Orange for important items */
+    
+    /* LIGHT BACKGROUND COLORS - Subtle highlights and hover states */
+    --light-purple: #E0F2FE;       /* Light blue-purple tint */
+    --light-pink: #CFFAFE;         /* Light cyan tint */
+    --light-blue: #DBEAFE;         /* Light blue tint */
+    
+    /* GRAYSCALE COLORS - Text, borders, backgrounds */
+    --dark-bg: #0C4A6E;            /* Dark blue background */
+    --dark-gray: #4B5563;          /* Dark text */
+    --medium-gray: #6B7280;        /* Secondary text */
+    --border-color: #E5E7EB;       /* Borders and dividers */
+    --light-gray: #D1D5DB;         /* Disabled states */
+    --hover-bg: #F9FAFB;           /* Subtle hover background */
+    
+    /* GRADIENTS - Used for today's date, buttons, and backgrounds */
+    --today-bg: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+    --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --danger-gradient: linear-gradient(135deg, #EF4444, #DC2626);
+    
+    /* SHADOW EFFECTS - Create depth and hierarchy */
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --focus-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);  /* Focus ring for accessibility */
+    
+    /* BORDER RADIUS - Rounded corners for modern look */
+    --border-radius-sm: 8px;       /* Small radius (event items) */
+    --border-radius-md: 12px;      /* Medium radius (cards) */
+    --border-radius-lg: 15px;      /* Large radius (containers) */
+    --border-radius-xl: 20px;      /* Extra large (main container) */
+    --border-width: 2px;           /* Standard border width */
+    
+    /* TRANSITIONS - Smooth animations */
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);  /* Standard easing */
+    --transition-fast: all 0.2s;   /* Quick transitions */
+    
+    /* SPACING - Consistent spacing throughout */
+    --spacing-xs: 3px;             /* Extra small (tight gaps) */
+    --spacing-sm: 8px;             /* Small (compact spacing) */
+    --spacing-md: 12px;            /* Medium (default spacing) */
+    --spacing-lg: 20px;            /* Large (section spacing) */
+    --spacing-xl: 30px;            /* Extra large (page margins) */
+}
+
+/* ===============================================
+ * GLOBAL STYLES
+ * =============================================== */
+
+/* BODY - Main page background with blue gradient */
+body {
+    background: var(--primary-gradient);  /* Full-page gradient background */
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;                    /* Full viewport height */
+    padding: var(--spacing-lg) 0;         /* Vertical padding */
+}
+
+/* MAIN CONTAINER - White card containing all calendar content */
+/* This creates the "card on gradient" effect */
+.container-fluid {
+    max-width: 1400px;                    /* Maximum width for large screens */
+    margin: 0 auto;                       /* Center horizontally */
+    background-color: white;              /* White background for contrast */
+    min-height: calc(100vh - 40px);       /* Almost full height (minus padding) */
+    padding: 0;                           /* No internal padding */
+    border-radius: var(--border-radius-xl);  /* Rounded corners */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);  /* Drop shadow */
+    overflow: hidden;                     /* Prevent content overflow */
+    border: var(--border-width) solid rgb(0, 0, 0);  /* Black border for definition */
+}
+
+/* TABLE CONTAINERS - Prevent horizontal overflow on calendar grids */
+/* Important: prevents scrollbars from appearing */
+.table-responsive {
+    overflow-x: hidden !important;
+}
+
+/* Header - Sticky navigation bar with title and view toggle buttons */
+header {
+    background: var(--primary-gradient);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: var(--spacing-lg) var(--spacing-xl) !important;
+    box-shadow: var(--card-shadow);
+}
+
+header h1 {
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Live Clock - Digital time display */
+#liveClock {
+    background: rgba(255, 255, 255, 0.2);
+    padding: var(--spacing-sm) 16px;
+    border-radius: var(--border-radius-sm);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Navigation Bar - Contains prev/next/today buttons and period display */
+.navigation {
+    background: linear-gradient(to right, var(--light-purple), var(--light-pink), var(--light-blue));
+    padding: var(--spacing-lg) var(--spacing-xl) !important;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+/* Period Display (e.g., "November 2025" or date range) */
+.navigation h2 {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+/* ========== MONTHLY CALENDAR STYLES ========== */
+
+/* Monthly Calendar Table - Grid layout with spacing between cells */
+.monthly-calendar {
+    margin: var(--spacing-xl);
+    border-collapse: separate;
+    border-spacing: var(--spacing-sm);
+    width: calc(100% - 60px);
+    table-layout: fixed;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-md);
+    padding: 10px;
+}
+
+/* Monthly Calendar Headers - Day names (Sun, Mon, etc.) */
+.monthly-calendar th {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+}
+
+/* Monthly Calendar Cells - Individual day boxes */
+.monthly-calendar td {
+    height: 120px;
+    width: 14.28%;
+    vertical-align: top;
+    padding: var(--spacing-md);
+    border: var(--border-width) solid transparent;
+    cursor: pointer;
+    transition: var(--transition-base);
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.monthly-calendar td:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--primary-color);
+}
+
+/* Day Number Display */
+.day-number {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--dark-bg);
+}
+
+/* Days from previous/next month - muted appearance */
+.other-month {
+    color: var(--light-gray);
+    background-color: var(--hover-bg);
+    opacity: 0.6;
+}
+
+.other-month:hover {
+    opacity: 0.8;
+}
+
+/* Today's Date - Highlighted with gradient */
+.today {
+    background: var(--today-bg);
+    border-color: var(--primary-color);
+}
+
+.today .day-number {
+    background: white;
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: var(--card-shadow);
+}
+
+/* ========== WEEKLY CALENDAR STYLES ========== */
+
+/* Weekly Calendar Table - 7 equal columns for each day */
+.weekly-calendar {
+    margin: 30px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    width: calc(100% - 60px); /* Fit within container with margins */
+    table-layout: fixed; /* Equal column widths */
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Weekly Calendar Headers - Day name and date display */
+.weekly-calendar th {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px 15px;
+    text-align: center;
+    font-weight: 700;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 14.28%; /* Equal width for 7 columns (100% / 7) */
+}
+
+/* Weekly Day Cells - Large vertical columns for each day */
+.weekly-day-cell {
+    height: 600px;
+    min-height: 600px;
+    border: 2px solid #E5E7EB;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: white;
+    position: relative;
+    vertical-align: top; /* Align events to top */
+}
+
+/* Hover effect for weekly cells */
+.weekly-day-cell:hover {
+    background: linear-gradient(135deg, rgba(224, 242, 254, 0.3), rgba(207, 250, 254, 0.3));
+    border-color: var(--primary-color);
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+}
+
+/* Today's column in weekly view */
+.weekly-today {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(6, 182, 212, 0.1));
+    border-left: 4px solid var(--primary-color);
+    border-right: 4px solid var(--secondary-color);
+}
+
+/* Day Header Container - Contains day name and date */
+.day-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Day name (e.g., "MON") */
+.day-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+/* Day date number */
+.day-date {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+/* Circular badge for today's date in header */
+.current-day-header .day-date {
+    background: white;
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== BUTTON STYLES ========== */
+
+/* Base button styles */
+.btn {
+    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-base);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* View Toggle Buttons (Weekly/Monthly) */
+.btn-group .btn {
+    border-radius: 0;
+    padding: 10px var(--spacing-lg);
+    border: var(--border-width) solid white;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.btn-group .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: var(--border-radius-md);
+    border-bottom-left-radius: var(--border-radius-md);
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+}
+
+.btn-group .btn.active {
+    background: white;
+    color: var(--primary-color);
+    border-color: white;
+    box-shadow: var(--card-shadow);
+    transform: scale(1.05);
+}
+
+/* Navigation Buttons (Prev, Next, Today) */
+.btn-outline-secondary {
+    background: white;
+    border: var(--border-width) solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px var(--spacing-lg);
+    box-shadow: var(--card-shadow);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--primary-gradient);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--card-shadow-hover);
+}
+
+/* Primary Button (Save) */
+.btn-primary {
+    background: var(--primary-gradient);
+    border: none;
+    padding: 10px var(--spacing-lg);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+/* Danger Button (Delete) */
+.btn-danger {
+    background: var(--danger-gradient);
+    border: none;
+    padding: 10px var(--spacing-lg);
+}
+
+.btn-danger:hover {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Secondary Button (Cancel) */
+.btn-secondary {
+    background: var(--medium-gray);
+    border: none;
+    padding: 10px var(--spacing-lg);
+}
+
+.btn-secondary:hover {
+    background: var(--dark-gray);
+}
+
+/* ========== EVENT STYLES ========== */
+
+/* Event Container in Monthly View */
+.events-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    max-height: 70px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.events-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Base event item styles */
+.event-item,
+.event-item-weekly {
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+}
+
+.event-item:hover,
+.event-item-weekly:hover {
+    transform: scale(1.05);
+}
+
+/* Event Badge in Monthly View */
+.event-item {
+    font-size: 11px;
+    padding: var(--spacing-xs) 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.event-item:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Event Block in Weekly View */
+.event-item-weekly {
+    font-size: 11px;
+    padding: 6px var(--spacing-sm);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+    min-height: 50px;
+    max-height: none;
+}
+
+.event-item-weekly:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 20 !important;
+}
+
+.event-item-weekly strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 12px;
+}
+
+.event-item-weekly small {
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+.event-description {
+    font-size: 11px;
+    opacity: 0.85;
+    margin-top: 2px;
+    display: block;
+    line-height: 1.3;
+}
+
+/* ========== MODAL STYLES ========== */
+
+.modal-content {
+    border-radius: var(--border-radius-lg);
+    border: none;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: var(--primary-gradient);
+    color: white;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+    border-bottom: none;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-title {
+    font-weight: 700;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: 600;
+    color: var(--dark-bg);
+    margin-bottom: var(--spacing-sm);
+}
+
+.form-control,
+.form-select {
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 10px var(--spacing-md);
+    transition: var(--transition-base);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-shadow);
+}
+
+/* ========== ACCESSIBILITY & UTILITIES ========== */
+
+*:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: var(--border-radius-sm);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ========== ANIMATIONS ========== */
+
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+/* ========== PRINT STYLES ========== */
+
+@media print {
+    body {
+        background: white;
+    }
+    
+    .container-fluid {
+        box-shadow: none;
+    }
+    
+    .btn-group,
+    .navigation button {
+        display: none;
+    }
+}

@@ -1,326 +1,121 @@
 # Calendar Application
 
-A simple, clean calendar application built with PySide6 (Qt for Python) designed for easy navigation and minimal distractions.
+A modern, ADHD-friendly calendar application with monthly and weekly views, built with HTML, CSS, and JavaScript.
 
 ## Features
 
-- 🗓️ **Clean Calendar Interface** - Simple, distraction-free calendar view
-- 🔄 **Easy Navigation** - Previous/Next month buttons and Today shortcut
-- 📅 **Date Selection** - Click any date to see it highlighted
-- 🎨 **Modern UI** - Professional styling with hover effects
-- 🚫 **No Clutter** - Week numbers removed for cleaner appearance
-- ⚡ **Lightweight** - Fast startup and responsive interface
+- **Dual View Modes**: Switch between monthly grid view and weekly column view
+- **Event Management**: Create, edit, and delete events with color coding
+- **Persistent Storage**: Events are saved in browser localStorage
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- **Modern UI**: Blue ocean theme with smooth animations and transitions
+- **Accessibility**: Keyboard navigation support and focus indicators
 
-## Requirements
+## Project Structure
 
-- Python 3.7+
-- PySide6
-
-## Installation & Setup
-
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/Jolteer/Calender.git
-cd Calender
+```
+Calender-1/
+├── docs/                       # Documentation
+│   ├── architecture.md         # Architecture documentation (Marp)
+│   ├── architecture.pdf        # Architecture PDF
+│   ├── user_manual.md          # User manual (Marp)
+│   ├── user_manual.pdf         # User manual PDF
+│   ├── presentation.md         # Project presentation (Marp)
+│   └── presentation.pdf        # Presentation PDF
+├── src/                        # Source code
+│   ├── frontend/               # Frontend application
+│   │   ├── index.html          # Main HTML file
+│   │   ├── css/
+│   │   │   └── styles.css      # All CSS styles and theming
+│   │   └── js/
+│   │       └── script.js       # Calendar logic and event handling
+│   └── backend/                # Backend API
+│       ├── main.py             # FastAPI backend server
+│       └── requirements.txt    # Python dependencies
+├── tests/                      # Test files
+│   ├── test_calendar.js        # Frontend tests
+│   ├── test_main.py            # Backend tests
+│   └── requirements-test.txt   # Test dependencies
+├── README.md                   # This file
+└── TEST_SUMMARY.md             # Test results summary
 ```
 
-### Step 2: Set Up Python Environment
+## Technologies Used
 
-#### Option A: Using Virtual Environment (Recommended)
+- **HTML5**: Semantic markup
+- **CSS3**: Modern styling with CSS variables, gradients, and animations
+- **JavaScript (ES6+)**: Class-based architecture with modern features
+- **Bootstrap 5.3.0**: Responsive layout and UI components
+- **Bootstrap Icons 1.10.0**: Icon library
 
-**On Windows:**
+## Getting Started
+
+1. Clone or download this repository
+2. Open `src/frontend/index.html` in a modern web browser
+3. No build process or dependencies required for frontend - it just works!
+
+### Running the Backend (Optional)
+If you want to use the backend API:
 ```bash
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-.venv\Scripts\activate.bat
-# or for PowerShell:
-.venv\Scripts\Activate.ps1
-
-# Install dependencies
+cd src/backend
 pip install -r requirements.txt
-```
-
-**On macOS/Linux:**
-```bash
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### Option B: Global Installation
-
-```bash
-pip install PySide6>=6.10.0
-```
-
-## Running the Application
-
-### Method 1: Using Convenience Scripts (Windows)
-
-**Batch Script:**
-- Double-click `run_calendar.bat`
-
-**PowerShell Script:**
-- Right-click `run_calendar.ps1` → "Run with PowerShell"
-- Or from PowerShell: `.\run_calendar.ps1`
-
-### Method 2: Command Line
-
-**With Virtual Environment:**
-```bash
-# Activate virtual environment first
-.venv\Scripts\activate.bat  # Windows
-source .venv/bin/activate   # macOS/Linux
-
-# Run the application
 python main.py
 ```
 
-**Without Virtual Environment:**
-```bash
-python main.py
-```
+## Usage
 
-## File Structure
+### Monthly View
+- Click on any day to create a new event
+- Click on an existing event to edit or delete it
+- Today's date is highlighted with a gradient background
+- Events appear as colored badges below the day number
 
-```
-Calendar/
-├── main.py                 # Application entry point
-├── requirements.txt        # Python dependencies
-├── run_calendar.bat       # Windows batch script
-├── run_calendar.ps1       # PowerShell script
-├── README.md              # This file
-├── config/
-│   └── settings.py        # Application configuration
-├── core/
-│   ├── __init__.py
-│   └── application.py     # Main application logic
-├── ui/
-│   ├── __init__.py
-│   ├── calendar_window.py # Calendar window implementation
-│   └── styles.py          # UI styling
-└── .venv/                 # Virtual environment (created after setup)
-```
+### Weekly View
+- View an entire week at a glance with vertical day columns
+- Events show full details including title, time, and description
+- Click on any day column to add a new event
+- Click on events to edit or delete them
 
-## Application Controls
+### Event Management
+- **Create**: Click on any day in either view
+- **Edit**: Click on an existing event
+- **Delete**: Open event editor and click the Delete button
+- **Color Code**: Choose from 7 colors to categorize events
 
-- **Previous/Next Buttons**: Navigate between months
-- **Today Button**: Jump to current date instantly
-- **Date Selection**: Click any date to select it
-- **Date Display**: View selected date at the bottom
+## Browser Support
 
-## Code Architecture
+Works on all modern browsers:
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Opera (latest)
 
-The application follows clean code principles with a modular structure:
+## Local Storage
 
-### Main Components
-
-- **`main.py`**: Application entry point
-- **`core/application.py`**: Main application logic and lifecycle management
-- **`ui/calendar_window.py`**: Calendar window implementation
-- **`ui/styles.py`**: UI styling definitions
-- **`config/settings.py`**: Configuration constants
-
-### Key Features
-
-- **Modular Design**: Clean separation of concerns
-- **Configuration Management**: Centralized settings
-- **Modern UI**: PySide6-based interface
-- **Cross-Platform**: Works on Windows, macOS, and Linux
+Events are automatically saved to browser localStorage. Your events will persist between sessions unless you:
+- Clear browser data
+- Use incognito/private browsing mode
+- Manually clear localStorage
 
 ## Customization
 
-You can customize the application by modifying the settings in `config/settings.py`:
-
-```python
-class CalendarConfig:
-    WINDOW_TITLE = "Your Custom Title"
-    WINDOW_WIDTH = 800  # Change window size
-    WINDOW_HEIGHT = 600
-    # ... other settings
-```
-
-## Troubleshooting
-
-### Common Issues
-
-**PySide6 Import Error:**
-```bash
-pip install PySide6>=6.10.0
-```
-
-**Virtual Environment Issues:**
-```bash
-# Remove and recreate virtual environment
-# Windows:
-rmdir /s .venv
-python -m venv .venv
-.venv\Scripts\activate.bat
-pip install -r requirements.txt
-
-# macOS/Linux:
-rm -rf .venv
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-**Permission Issues (Windows PowerShell):**
-If you get execution policy errors, run PowerShell as Administrator and execute:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Author
-
-**Jolteer**
-- GitHub: [@Jolteer](https://github.com/Jolteer)
-
----
-
-*Simple, clean, and focused - just the way a calendar should be.* 📅
-
-## Code Architecture
-
-The application follows clean code principles with:
-
-### Classes
-
-- **`CalendarConfig`**: Configuration constants (window size, colors, text)
-- **`SimpleCalendar`**: Main calendar window (inherits from QMainWindow)
-- **`CalendarApplication`**: Application lifecycle manager
-
-### Key Methods
-
-- **UI Creation**: Modular methods for creating interface components
-- **Event Handling**: Clean signal/slot connections for user interactions
-- **Navigation**: Separate methods for each navigation action
-- **Styling**: CSS-like styling separated into dedicated methods
-
-### Design Patterns
-
-- **Configuration Pattern**: All constants centralized in `CalendarConfig`
-- **Factory Pattern**: Separate methods for creating UI components
-- **Observer Pattern**: Qt's signal/slot system for event handling
-- **Single Responsibility**: Each method has one clear purpose
-
-## Customization
-
-### Changing Colors
-
-Edit the stylesheet in `_get_main_stylesheet()` method:
-
-```python
-QPushButton {
-    background-color: #2196F3;  # Change button color
-    color: white;
+### Color Theme
+Edit CSS variables in `css/styles.css` (lines 6-22) to change the color scheme:
+```css
+:root {
+    --primary-color: #0EA5E9;
+    --secondary-color: #06B6D4;
+    /* ... more colors */
 }
 ```
 
-### Changing Window Size
-
-Modify `CalendarConfig` class:
-
-```python
-class CalendarConfig:
-    WINDOW_WIDTH = 800   # Default: 600
-    WINDOW_HEIGHT = 600  # Default: 500
-```
-
-### Changing Date Format
-
-Update the date format in `CalendarConfig`:
-
-```python
-DATE_FORMAT = "MM/dd/yyyy"  # American format
-# or
-DATE_FORMAT = "dd/MM/yyyy"  # European format
-```
-
-## Development
-
-### Code Style
-
-- **Type Hints**: All methods include proper type annotations
-- **Comments**: Single-line comments using `#` style
-- **Naming**: Private methods prefixed with `_`
-- **Constants**: Uppercase constants in configuration class
-
-### Adding Features
-
-The modular design makes it easy to add new features:
-
-1. Add configuration constants to `CalendarConfig`
-2. Create UI components in separate methods
-3. Add event handlers with proper signal connections
-4. Update styling in stylesheet methods
-
-## Troubleshooting
-
-### Common Issues
-
-**PySide6 Import Error:**
-```bash
-pip install PySide6
-```
-
-**Virtual Environment Issues:**
-```bash
-# Recreate virtual environment
-rm -rf .venv  # or rmdir /s .venv on Windows
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install PySide6
-```
-
-**Application Won't Start:**
-- Ensure Python 3.7+ is installed
-- Check that PySide6 is properly installed
-- Try running from command line to see error messages
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+### Event Colors
+Modify the color options in `index.html` (lines 164-171) to add or change event colors.
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+Free to use for educational purposes.
 
 ## Author
 
-**Jolteer**
-- GitHub: [@Jolteer](https://github.com/Jolteer)
-
-## Acknowledgments
-
-- Built with [PySide6](https://doc.qt.io/qtforpython/) (Qt for Python)
-- Designed for ADHD-friendly minimal interface
-- Inspired by the need for distraction-free productivity tools
-
----
-
-*Simple, clean, and focused - just the way a calendar should be.* 📅
+Created for ASE 420 - Software Engineering Course
