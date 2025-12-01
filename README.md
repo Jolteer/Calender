@@ -118,4 +118,4 @@ Free to use for educational purposes.
 
 ## Author
 
-Created for ASE 420 - Software Engineering Course
+Joshua Day
