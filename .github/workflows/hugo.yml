@@ -39,7 +39,7 @@ jobs:
       - name: Build
         run: |
           cd docs/website
-          hugo --minify --baseURL "https://Jolteer.github.io/Calendar/" --verbose
+          hugo --minify --baseURL "https://Jolteer.github.io/Calendar/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
