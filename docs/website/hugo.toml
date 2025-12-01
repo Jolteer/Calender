@@ -16,7 +16,8 @@ buildFuture = false
 buildExpired = false
 
 # Pagination
-paginate = 10
+[pagination]
+  pagerSize = 10
 
 # Minify output
 minify.disableXML = true
