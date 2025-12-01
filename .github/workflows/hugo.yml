@@ -32,18 +32,18 @@ jobs:
 
       - name: Install PaperMod Theme
         run: |
-          cd DOCS/website
+          cd docs/website
           git clone https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod --depth=1
 
       - name: Build
         run: |
-          cd DOCS/website
+          cd docs/website
           hugo --minify --baseURL "https://Jolteer.github.io/Calendar/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./DOCS/website/public
+          path: ./docs/website/public
 
   deploy:
     environment:
